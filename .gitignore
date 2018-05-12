@@ -1,1 +1,7 @@
 vendor/
+cache/
+tls/
+secrets
+.terraform
+*.tfstate
+*.tfstate*
