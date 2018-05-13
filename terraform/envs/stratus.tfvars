@@ -1,4 +1,11 @@
 
+cluster_name = "stratus"
+cluster_domain = "stratus.inur.sh"
+node_domain = "int.stratus.inur.sh"
+
+matchbox_host = "matchbox.svc.int.stratus.inur.sh"
+matchbox_host_public = "matchbox.svc.int.stratus.inur.sh"
+
 controller_names = [
   "node1"
 ]

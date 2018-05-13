@@ -1,0 +1,7 @@
+apiVersion: crd.projectcalico.org/v1
+kind: BGPPeer
+metadata:
+  name: router-bgp
+spec:
+  peerIP: 10.0.1.1
+  asNumber: 64512

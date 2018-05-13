@@ -34,12 +34,12 @@ mkdir -p ${CACHE_DIR}/matchbox{/var/lib/matchbox/assets,/etc/matchbox} ${CACHE_D
 
 
 # Don't block matchbox waiting for a password.
-sudo true;
+#sudo true;
 
 
 # Run matchbox in a Docker container.
 (
-  sudo docker run --rm --name matchbox \
+  docker run --rm --name matchbox \
     -v ${CACHE_DIR}/matchbox/var/lib/matchbox:/var/lib/matchbox:Z \
     -v ${CACHE_DIR}/matchbox/etc/matchbox:/etc/matchbox:Z,ro \
     -p 0.0.0.0:8080:8080 \
@@ -80,11 +80,16 @@ cleanup() {
 trap "cleanup" INT TERM EXIT
 
 
-# Run the Terraform in a Docker container.
+# Run the Terraform locally.
 sleep 2;
-TERRAFORM="docker run --net=host --rm -v $(pwd)/terraform:/build -v ${CACHE_DIR}/terraform/root/.matchbox:/root/.matchbox:ro -e TF_VAR_matchbox_host=${MATCHBOX_INTERNAL_DOMAIN} -e TF_VAR_matchbox_host_public=${MATCHBOX_DOMAIN} -e TF_VAR_cluster_name=${CLUSTER_NAME} -e TF_VAR_cluster_domain=${CLUSTER_DOMAIN} kramergroup/terraform-matchbox"
-$TERRAFORM init
-$TERRAFORM apply --var-file="/build/envs/${CLUSTER_NAME}.tfvars"
+#TERRAFORM="docker run --net=host --rm -v $(pwd)/terraform:/build -v ${CACHE_DIR}/terraform/root/.matchbox:/root/.matchbox:ro -e TF_VAR_matchbox_host=${MATCHBOX_INTERNAL_DOMAIN} -e TF_VAR_matchbox_host_public=${MATCHBOX_DOMAIN} -e TF_VAR_cluster_name=${CLUSTER_NAME} -e TF_VAR_cluster_domain=${CLUSTER_DOMAIN} kramergroup/terraform-matchbox"
+#$TERRAFORM init
+#$TERRAFORM apply --var-file="/build/envs/${CLUSTER_NAME}.tfvars"
+(
+  cd terraform
+  terraform init
+  terraform apply --var-file="./envs/${CLUSTER_NAME}.tfvars"
+)
 
 # Keep running so we can watch the matchbox logs.
 tail -f /dev/null

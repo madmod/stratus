@@ -91,7 +91,40 @@ set options host-record=node1.int.stratus.inur.sh,10.1.10.1
 set options host-record=node2.int.stratus.inur.sh,10.1.10.2
 set options host-record=node3.int.stratus.inur.sh,10.1.10.3
 
+set options host-record=k8s.stratus.inur.sh,10.1.10.1
+
+set options server=/svc.cluster.local/10.3.0.10
+
 exit
+
+set protocols static route 10.3.0.0/16 next-hop 10.1.10.1
+set protocols static route 10.3.0.0/16 next-hop 10.1.10.2
+set protocols static route 10.3.0.0/16 next-hop 10.1.10.3
+
+set port-forward wan-interface eth0
+set port-forward lan-interface eth1
+set port-forward auto-firewall enable
+set port-forward hairpin-nat enable
+set port-forward rule 1 description 'ingress http'
+set port-forward rule 1 forward-to address 10.3.0.12
+set port-forward rule 1 forward-to port 80
+set port-forward rule 1 original-port 80
+set port-forward rule 1 protocol tcp_udp
+set port-forward rule 2 description 'ingress https'
+set port-forward rule 2 forward-to address 10.3.0.12
+set port-forward rule 2 forward-to port 443
+set port-forward rule 2 original-port 443
+set port-forward rule 2 protocol tcp_udp
+
+
+set service gui http-port 8080
+set service gui https-port 4443
+
+set protocols bgp 1 parameters router-id 10.1.0.1
+set protocols bgp 1 neighbor 10.1.10.1 remote-as 64512
+set protocols bgp 1 neighbor 10.1.10.2 remote-as 64512
+set protocols bgp 1 neighbor 10.1.10.3 remote-as 64512
+
 
 commit
 save

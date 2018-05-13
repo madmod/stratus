@@ -2,9 +2,9 @@
 // Configure the matchbox provider.
 provider "matchbox" {
   endpoint    = "${local.matchbox_grpc_endpoint}"
-  client_cert = "${file("~/.matchbox/client.crt")}"
-  client_key  = "${file("~/.matchbox/client.key")}"
-  ca          = "${file("~/.matchbox/ca.crt")}"
+  client_cert = "${file("../tls/client.crt")}"
+  client_key  = "${file("../tls/client.key")}"
+  ca          = "${file("../tls/ca.crt")}"
 }
 
 provider "local" {

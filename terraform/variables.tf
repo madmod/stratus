@@ -19,6 +19,11 @@ variable "cluster_domain" {
   description = "Cluster domain suffix (e.g. my-cluster.example.com)"
 }
 
+variable "node_domain" {
+  type        = "string"
+  description = "Node domain suffix (e.g. my-node.nodes.example.com)"
+}
+
 variable "container_linux_channel" {
   type    = "string"
   default = "stable"

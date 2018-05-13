@@ -12,6 +12,21 @@ resource "tls_private_key" "admin-ssh" {
   ecdsa_curve = "P256"
 }
 
+resource "local_file" "admin-ssh-private-key" {
+  content  = "${tls_private_key.admin-ssh.private_key_pem}"
+  filename = "./secrets/admin-ssh-private-key.pem"
+}
+
+resource "local_file" "admin-ssh-public-key" {
+  content  = "${tls_private_key.admin-ssh.public_key_pem}"
+  filename = "./secrets/admin-ssh-public-key.pem"
+}
+
+resource "local_file" "admin-ssh-public-key-openssh" {
+  content  = "${tls_private_key.admin-ssh.public_key_openssh}"
+  filename = "./secrets/admin-ssh-public-key-openssh.pem"
+}
+
 
 // Create a CoreOS-install profile
 #resource "matchbox_profile" "coreos-install" {
@@ -102,9 +117,9 @@ module "bare-metal" {
   # machines
   controller_names   = ["${var.controller_names}"]
   controller_macs    = ["${var.controller_mac_addresses}"]
-  controller_domains = ["${formatlist("%s.%s", var.controller_names, var.cluster_domain)}"]
+  controller_domains = ["${formatlist("%s.%s", var.controller_names, var.node_domain)}"]
 
   worker_names   = ["${var.worker_names}"]
   worker_macs    = ["${var.worker_mac_addresses}"]
-  worker_domains = ["${formatlist("%s.%s", var.worker_names, var.cluster_domain)}"]
+  worker_domains = ["${formatlist("%s.%s", var.worker_names, var.node_domain)}"]
 }
