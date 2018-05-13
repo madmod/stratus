@@ -31,8 +31,8 @@ ks generate kubeflow-core kubeflow-core
 
 # Enable collection of anonymous usage metrics
 # Skip this step if you don't want to enable collection.
-ks param set kubeflow-core reportUsage true
-ks param set kubeflow-core usageId $(uuidgen)
+ks param set kubeflow-core reportUsage false
+kubectl delete -n ${NAMESPACE} deploy spartakus-volunteer
 
 # Deploy Kubeflow
 ks apply default -c kubeflow-core

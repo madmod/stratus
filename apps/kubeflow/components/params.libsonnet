@@ -12,12 +12,23 @@
       jupyterNotebookPVCMount: "null",
       name: "kubeflow-core",
       namespace: "null",
-      reportUsage: true,
+      reportUsage: false,
       tfAmbassadorServiceType: "ClusterIP",
       tfDefaultImage: "null",
       tfJobImage: "gcr.io/kubeflow-images-public/tf_operator:v20180329-a7511ff",
       tfJobUiServiceType: "ClusterIP",
       usageId: "06382E6E-9D16-4F2B-B7D0-6FBBEE064564"
     }
+    mycnnjob: {
+      batch_size: 32,
+      image: "gcr.io/kubeflow/tf-benchmarks-cpu:v20171202-bdab599-dirty-284af3",
+      image_gpu: "gcr.io/kubeflow/tf-benchmarks-gpu:v20171202-bdab599-dirty-284af3",
+      model: "resnet50",
+      name: "mycnnjob",
+      namespace: "null",
+      num_gpus: 0,
+      num_ps: 1,
+      num_workers: 1,
+    },
   }
 }
